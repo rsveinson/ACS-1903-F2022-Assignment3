@@ -1,0 +1,12 @@
+1 Start_Square
+2 McPhillips_Stn
+3 McBeth_House
+4 Bunns_Creek_Park 
+5 Seven_Oaks_House
+6 Central_Stn
+7 Kildonan_Park
+8 Maison_Kittson
+9 CN_Station
+10 Assiniboine_Park 
+11 CP_Station
+12 McDougall_House

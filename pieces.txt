@@ -1,0 +1,5 @@
+1	truck
+2	banana
+3	car
+4	horse
+5	star
