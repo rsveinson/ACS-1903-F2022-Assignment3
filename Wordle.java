@@ -19,7 +19,7 @@ public class Wordle{
         final int WORD_LENGTH = 5;      // word length obviously
 
         // create objects needed for i/o and random number
-        Scanner f = new Scanner(new File("ReadMe.txt"));    // for word list
+        Scanner f = new Scanner(new File("As3Q2.txt"));    // for word list
         Scanner kb = new Scanner(System.in);                // user input/guesses
         Random rand = new Random();                         // to get word from list
 
@@ -40,10 +40,11 @@ public class Wordle{
         while(f.hasNext()){
             words.add(f.next());
         }
-        answerAsString = "CHORE";     // for testing
+        //answerAsString = "CHORE";     // for testing
+        answerAsString = words.get(rand.nextInt(words.size()));
+        System.out.println(answerAsString); // also for testing
 
-        // convert the String into an ArrayList of Characters
-        // String answerAsString = words.get(rand.nextInt(words.size()));
+        // convert the answer string to a char arraylist
         populateCharacters(answerAsString, answer);
 
         System.out.println("Let's play wordle!");
@@ -51,6 +52,11 @@ public class Wordle{
 
         // assume that we want to play at least one gaje
         do{
+            /* we can either create new arraylists here
+             * and let garbage collection get rid of the old
+             * ones or use .clear() to empty out the existing
+             */
+            
             // reset array lists for each guess
             // guess = new ArrayList<>();
             // unmatched = new ArrayList<>();
@@ -61,9 +67,16 @@ public class Wordle{
 
             // get guess from user make sure it's got 5 letters
             System.out.print("Guess #" + ++numGuesses + ": ");
+            
+            /* allow the guess to be in any case
+             * convert the guess to upper case
+             */
             guessAsString = kb.next().toUpperCase();
 
             // make sure the input is a 5 letter word
+            /* this could be done using a do-while loop
+             * but error prompt would have to be accounted for
+             */
             while(guessAsString.length() != WORD_LENGTH){    // ensure guess has 5 chars
                 System.out.print("Your guess must be 5 letters in length. Guess again: ");
                 guessAsString = kb.next().toUpperCase();    
@@ -79,8 +92,11 @@ public class Wordle{
             // analyse the guess
             // go through all the letters to see if there is a direct match: pairwise comparison
             for (int i=0; i<WORD_LENGTH; i++){
+                // get the coorsponding chars from guess and answer
                 char answerChar = answer.get(i);
                 char guessChar = guess.get(i);
+                
+                // if they match we have a direct match
                 if (answerChar == guessChar){
                     result.add(i, answerChar);  // if direct match, set the corresponding result element to the letter
                 }// end direct match
@@ -92,17 +108,20 @@ public class Wordle{
 
             // go through the letters in the answer to find the indirect matches
             for (int i=0; i<WORD_LENGTH; i++){
+                // get the cooresponding chars from both the answer and the hint lists
                 char answerChar = answer.get(i);
                 char resultChar = result.get(i);
+                
+                // only test on positions in the list that match unmatched positions
                 if (resultChar == '_'){         // if it is not a match
                     // if the answer char is in the unmatched list, update corresponding result element to lowercase
                     if (unmatched.contains(answerChar)){
                         // get the position of the match in guess, assign lowercase to the corresponding result position
                         result.set(guess.indexOf(answerChar), Character.toLowerCase(answerChar));
                         unmatched.remove((Character)answerChar);   // remove from unmatched;
-                    }
-                }                
-            } 
+                    }// end current char is in unmatched
+                }// end if not matched                
+            }// end for 
 
             // print result of guess 
             // prints the codes a A or _
@@ -111,16 +130,17 @@ public class Wordle{
                 System.out.print(c + " ");
                 
             System.out.println();
+        // terminate the loop after 6 guesses or a correcdt guess
         }while (numGuesses < 6 && !answer.equals(guess));
 
         // display result
         System.out.println(answer.equals(guess) ? "You guessed today's Wordle!" : "Sorry not today! Answer: " + answerAsString);
-    }
+    }// end main
 
     // add Characters to array list from String
     public static void populateCharacters(String word, ArrayList<Character> list){
         for (int i=0; i<word.length(); i++){
             list.add(word.charAt(i));
-        }        
-    }
+        }// enbd for       
+    }// end populate character
 }
