@@ -59,6 +59,10 @@ public class Square
         // pieces.remove(pieces.size() -1);
      // }// end remove piece
      
+     public boolean equals(Square s){
+         return this.name.equals(s.name);
+     }// end equals
+     
     /* ************* end added methods ****************** */
     
     public String toString(){
